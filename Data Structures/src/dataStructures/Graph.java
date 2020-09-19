@@ -37,17 +37,23 @@ public class Graph {
 		edges = new ArrayList<Edge>();
 	}
 	
-	public Vertice addVertice(String name) {
+	public void addVertice(String name) {
 		Vertice v = new Vertice(name);
 		vertices.add(v);
-		return v;
 	}
 	
-	public Edge addEdge(Vertice from, Vertice to) {
-		Edge e = new Edge(from, to);
-		from.addAdj(e);
+	public void addEdge(String from, String to) {
+		
+		int fromPos = vertices.indexOf(vertices.stream().filter(i -> i.name == from).findFirst().orElse(null));
+		int toPos = vertices.indexOf(vertices.stream().filter(i -> i.name == to).findFirst().orElse(null));
+		
+		if(fromPos == -1 || toPos == -1) {
+			return;
+		}
+		
+		Edge e = new Edge(vertices.get(fromPos), vertices.get(toPos));
+		vertices.get(fromPos).addAdj(e);
 		edges.add(e);
-		return e;
 	}
 	
 	@Override
